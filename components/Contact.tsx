@@ -58,10 +58,10 @@ export default function Contact() {
               strokeWidth={1.6}
             />
             <h3 className="mt-4 text-xl font-bold text-navy md:text-2xl">
-              メールアプリが開きました。
+              お問い合わせいただき、ありがとうございます。
             </h3>
             <p className="mt-3 text-sm text-ink-soft md:text-base leading-relaxed">
-              内容をご確認のうえ、そのまま送信してください。
+              メールアプリが開きましたので、そのまま送信してください。
               <br />
               通常24時間以内にご返信いたします。
             </p>

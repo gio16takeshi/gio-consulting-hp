@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { X, Send, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Loader2 } from "lucide-react";
 
 type ChatRole = "user" | "assistant";
 type ChatMessage = { role: ChatRole; content: string };
@@ -81,17 +81,17 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* 開閉ボタン */}
-      <button
-        type="button"
-        aria-label={open ? "チャットを閉じる" : "チャットを開く"}
-        onClick={() => setOpen((v) => !v)}
-        className={`fixed z-50 right-4 bottom-4 md:right-6 md:bottom-6 inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-xl hover:bg-brand-dark transition-all ${
-          open ? "scale-90 opacity-90" : "scale-100"
-        }`}
-      >
-        {open ? <X size={22} /> : <img src="/images/gio-logo.png" alt="Gio" className="h-8 w-8 object-contain" />}
-      </button>
+      {/* 開閉ボタン（チャット閉じているときのみ表示） */}
+      {!open && (
+        <button
+          type="button"
+          aria-label="チャットを開く"
+          onClick={() => setOpen(true)}
+          className="fixed z-50 right-4 bottom-4 md:right-6 md:bottom-6 inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-xl hover:bg-brand-dark transition-all scale-100"
+        >
+          <MessageCircle size={24} />
+        </button>
+      )}
 
       {/* チャットウィンドウ */}
       <div
