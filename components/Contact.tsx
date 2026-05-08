@@ -20,17 +20,17 @@ export default function Contact() {
     e.preventDefault();
     setStatus("submitting");
 
-    // メールクライアントを起動してフォーム内容を送信
-    const subject = encodeURIComponent(`[Gioお問い合わせ] ${form.name}様より`);
-    const body = encodeURIComponent(
-      `お名前: ${form.name}\n会社名・屋号: ${form.company || "（未記入）"}\n返信用メール: ${form.email}\n\n▼ご相談内容\n${form.message}`
-    );
-    await new Promise((r) => setTimeout(r, 500));
-    window.open(
-      `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`,
-      "_blank"
-    );
-    setStatus("success");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("送信エラー");
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -50,6 +50,11 @@ export default function Contact() {
           </p>
         </div>
 
+        {status === "error" && (
+          <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+            送信に失敗しました。時間をおいて再度お試しいただくか、直接メールでご連絡ください。
+          </div>
+        )}
         {status === "success" ? (
           <div className="rounded-3xl border border-brand/30 bg-brand-light/40 p-8 md:p-10 text-center">
             <CheckCircle2
